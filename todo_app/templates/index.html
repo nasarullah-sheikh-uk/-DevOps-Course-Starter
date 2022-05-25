@@ -12,7 +12,47 @@
       <h2>Items</h2>
       <ul class="list-group mb-4">
         <!-- List the todo items here -->
+        {% for item in items %}
+        <li>
+        {{ item.id }} - {{ item.status }} - {{ item.title }}
+        </li>
+        {% endfor %}
       </ul>
     </div>
   </div>
+
+   <!-- form added for add item -->
+    <div class="row">
+      <div class="col-md-12">
+      <h2>Add Item</h2>
+            <form action = "/additem" method = "POST">
+	           <p>Title Name <input type = "text" name = "title" /></p>
+	           <p><input type = "submit" value = "Additem" /></p>
+      		</form>
+      	</div>
+      </div>
+
+     <!-- form added for mark complete item -->
+          <div class="row">
+	        <div class="col-md-12">
+	        <h2>Add Item</h2>
+	              <form action = "/updateitem" method = "POST">
+	  	           <p>ID from above list to be updated <input type = "text" name = "ID" /></p>
+	  	           <p><input type = "submit" value = "Updateitem" /></p>
+	        		</form>
+	        	</div>
+      </div>
+
+           <!-- form added for remove item -->
+	            <div class="row">
+	  	        <div class="col-md-12">
+	  	        <h2>Remove Item</h2>
+	  	              <form action = "/removeitem" method = "POST">
+	  	  	           <p>ID from above list to be removed <input type = "text" name = "RID" /></p>
+	  	  	           <p><input type = "submit" value = "Removeitem" /></p>
+	  	        		</form>
+	  	        	</div>
+      </div>
+
+
 {% endblock %}
