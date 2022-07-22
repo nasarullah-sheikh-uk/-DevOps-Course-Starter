@@ -17,9 +17,9 @@ trellobid = os.getenv('TrelloBID')
 #####  The default repo has some functions written in ./data/sessions_items.py
 ####   Importing functions written under ./data/sessions_items.py
 #####
-from todo_app.data.trello_items import get_items
-from todo_app.data.trello_items import add_item
-from todo_app.data.trello_items import update_item
+from todo_app.data.trello_items import get_cards
+from todo_app.data.trello_items import add_card
+from todo_app.data.trello_items import update_card
 from todo_app.flask_config import Config
 
 app = Flask(__name__)
@@ -34,20 +34,23 @@ def hello():
 @app.route('/')
 def index():
     # The index page should go to templates/index.html
-    return render_template('index.html', items=get_items(url, trellobid, apikey, apitoken))
+    # It will render a html with two forms and one table
+    # It taks a list of objects called items which is a class card 
+    # having name, id, status, statusid as properties
+    return render_template('index.html', cards=get_cards(url, trellobid, apikey, apitoken))
 
 
 ############################################################################################
 #  Adding a route/URL path to add new item
-#  This takes the form data from index page, so a form needs to be added there
-##
-@app.route('/additem', methods=['GET', 'POST'])
-def additem():
+#  This takes the form data from index page
+#  We are taking name of the card and its status/list as inputs
+#####################################################################
+@app.route('/addcard', methods=['GET', 'POST'])
+def addcard():
     if request.method == 'POST':
-        title_to_add=request.form.get('title')  # i have named title in index.html form
-        list_to_which_added=request.form.get('status')
-        add_item(title_to_add, list_to_which_added, url, trellobid, apikey, apitoken)
-        ##  If you want to reset the item list -- u will have to create a new browser session
+        title_to_add=request.form.get('new_card_name')  # i have named title in index.html form
+        list_to_which_added=request.form.get('status') # # i have named status as input from radio button in index.html form
+        add_card(title_to_add, list_to_which_added, url, trellobid, apikey, apitoken)
         return redirect('/')                    # requested in task to use redirect
     else:
         return redirect('/')
@@ -56,19 +59,15 @@ def additem():
 
 ############################################################################################
 #  Adding a route/URL path to update a card 
-#  This takes the form data from index page, so a form needs to be added in template/index.html
+#  This takes the form data from index page, it can update status/list of card
+#  We also check if the card is there
 ##
-@app.route('/updateitem', methods=['GET', 'POST'])
-def updateitem():
+@app.route('/updatecard', methods=['GET', 'POST'])
+def updatecard():
     if request.method == 'POST':
-        title_to_update=request.form.get('ID')  # i have named ID in index.html form
+        title_to_update=request.form.get('card_name')  # i have named this in index.html form
         list_to_which_added=request.form.get('status')
-        update_item(title_to_update, list_to_which_added, url, trellobid, apikey, apitoken)
+        update_card(title_to_update, list_to_which_added, url, trellobid, apikey, apitoken)
         return redirect('/')            # Once updated go to index and show
     else:
         return redirect('/')
-
-
-
-    
-

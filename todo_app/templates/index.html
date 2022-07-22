@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}To-Do App{% endblock %}
+{% block title %}Show Cards App{% endblock %}
 
 {% block content %}
   <div class="jumbotron">
@@ -18,11 +18,11 @@
 		    <th>Card Name</th>
 		    <th>Status</th>
 		  </tr>
-		  {% for item in items %}
+		  {% for card in cards['allcards'] %}
 		  <tr>
-		    <td>{{ item.id }}</td>
-		    <td>{{ item.name }}</td>
-		    <td>{{ item.status }}</td>
+		    <td>{{ card.id }}</td>
+		    <td>{{ card.name }}</td>
+		    <td>{{ card.status }}</td>
 		  </tr>
 		  {% endfor %}
 </table>
@@ -30,34 +30,41 @@
     </div>
   </div>
 
-   <!-- form added for add item -->
+   <!-- form added for add card -->
     <div class="row">
       <div class="col-md-12">
-      <h2>Add Item</h2>
-            <form action = "/additem" method = "POST">
-	           <p>Card Name <input type = "text" name = "title" /></p>
+      <h2>Add Card</h2>
+            <form action = "/addcard" method = "POST">
+	           <p>Card Name <input type = "text" name = "new_card_name" /></p>
 			   <p>Status <br>
-			   <input type = "radio" value="To Do" name = "status" checked/>To Do<br>
-			   <input type = "radio" value= "Done" name = "status" />Done<br>
-			   <input type = "radio" value= "Doing" name = "status" />Doing<br>
+				{% for status in cards['all_card_category'] %}
+			   <input type = "radio" value= {{ status.name }} name = "status" />{{ status.name }}<br>
+			   {% endfor %}
 			</p>
-	           <p><input type = "submit" value = "Additem" /></p>
+	           <p><input type = "submit" value = "Addcard" /></p>
       		</form>
       	</div>
       </div>
 
-     <!-- form added for mark complete item -->
+     <!-- form added for mark update card -->
           <div class="row">
 	        <div class="col-md-12">
-	        <h2>Update Item</h2>
-	              <form action = "/updateitem" method = "POST">
-	  	           <p>Card Name from above list to be updated <input type = "text" name = "ID" /></p>
+	        <h2>Update Card</h2>
+	              <form action = "/updatecard" method = "POST">
+	  	           <p>Card Name from above list to be updated 
+					<input list = "card_name" name = "card_name" />
+					<datalist id = card_name >
+					{% for card in cards['allcards'] %}
+					<option value="{{ card.name }}">
+					{% endfor %}
+					</datalist>
+				   </p>
 					 <p>Status <br>
-						<input type = "radio" value="To Do" name = "status" checked/>To Do<br>
-						<input type = "radio" value= "Done" name = "status" />Done<br>
-						<input type = "radio" value= "Doing" name = "status" />Doing<br>
+						{% for status in cards['all_card_category'] %}
+						<input type = "radio" value= {{ status.name }} name = "status" />{{ status.name }}<br>
+						{% endfor %}
 					 </p>
-	  	           <p><input type = "submit" value = "Updateitem" /></p>
+	  	           <p><input type = "submit" value = "Updatecard" /></p>
 	        		</form>
 	        	</div>
       </div>
