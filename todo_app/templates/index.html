@@ -12,11 +12,20 @@
       <h2>Items</h2>
       <ul class="list-group mb-4">
         <!-- List the todo items here -->
-        {% for item in items %}
-        <li>
-        {{ item.id }} - {{ item.status }} - {{ item.title }}
-        </li>
-        {% endfor %}
+        <table style="width:80%">
+		  <tr>
+		    <th>ID</th>
+		    <th>Card Name</th>
+		    <th>Status</th>
+		  </tr>
+		  {% for item in items %}
+		  <tr>
+		    <td>{{ item.id }}</td>
+		    <td>{{ item.name }}</td>
+		    <td>{{ item.status }}</td>
+		  </tr>
+		  {% endfor %}
+</table>
       </ul>
     </div>
   </div>
@@ -26,7 +35,12 @@
       <div class="col-md-12">
       <h2>Add Item</h2>
             <form action = "/additem" method = "POST">
-	           <p>Title Name <input type = "text" name = "title" /></p>
+	           <p>Card Name <input type = "text" name = "title" /></p>
+			   <p>Status <br>
+			   <input type = "radio" value="To Do" name = "status" checked/>To Do<br>
+			   <input type = "radio" value= "Done" name = "status" />Done<br>
+			   <input type = "radio" value= "Doing" name = "status" />Doing<br>
+			</p>
 	           <p><input type = "submit" value = "Additem" /></p>
       		</form>
       	</div>
@@ -37,22 +51,14 @@
 	        <div class="col-md-12">
 	        <h2>Update Item</h2>
 	              <form action = "/updateitem" method = "POST">
-	  	           <p>ID from above list to be updated <input type = "text" name = "ID" /></p>
+	  	           <p>Card Name from above list to be updated <input type = "text" name = "ID" /></p>
+					 <p>Status <br>
+						<input type = "radio" value="To Do" name = "status" checked/>To Do<br>
+						<input type = "radio" value= "Done" name = "status" />Done<br>
+						<input type = "radio" value= "Doing" name = "status" />Doing<br>
+					 </p>
 	  	           <p><input type = "submit" value = "Updateitem" /></p>
 	        		</form>
 	        	</div>
       </div>
-
-           <!-- form added for remove item -->
-	            <div class="row">
-	  	        <div class="col-md-12">
-	  	        <h2>Remove Item</h2>
-	  	              <form action = "/removeitem" method = "POST">
-	  	  	           <p>ID from above list to be removed <input type = "text" name = "RID" /></p>
-	  	  	           <p><input type = "submit" value = "Removeitem" /></p>
-	  	        		</form>
-	  	        	</div>
-      </div>
-
-
 {% endblock %}
